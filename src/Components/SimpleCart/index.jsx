@@ -17,9 +17,9 @@ const SimpleCart = () => {
         maxWidth: "md",
       }}
     >
-      {cart.map((item, idx) => (
+      {cart.map((item) => (
         <Box
-          key={`cart-${idx}`}
+          key={item.name}
           sx={{
             display: "flex",
             flexDirection: "row",
@@ -29,7 +29,7 @@ const SimpleCart = () => {
           }}
         >
           <Typography>{item.name}</Typography>
-          <IconButton onClick={() => dispatch(removeFromCart(idx))}>
+          <IconButton onClick={() => dispatch(removeFromCart(item))}>
             <DeleteIcon fontSize="small" />
           </IconButton>
         </Box>

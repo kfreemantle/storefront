@@ -8,7 +8,7 @@ const cartReducer = (state = initialState, action) => {
     case ADD:
       return [...state, action.payload];
     case REMOVE:
-      return state.filter((_, index) => index !== action.payload);
+      return state.filter((item) => item.name !== action.payload.name);
     default:
       return state;
   }
@@ -19,9 +19,9 @@ export const addToCart = (item) => ({
   payload: item,
 });
 
-export const removeFromCart = (index) => ({
+export const removeFromCart = (item) => ({
   type: REMOVE,
-  payload: index,
+  payload: item,
 });
 
 export default cartReducer;
