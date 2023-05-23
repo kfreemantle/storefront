@@ -1,19 +1,14 @@
-import { legacy_createStore as createStore, combineReducers } from 'redux';
-import { composeWithDevTools } from '@redux-devtools/extension';
-
-// Import the reducer for categories
+import { createStore, combineReducers } from 'redux';
 import categoriesReducer from './categories';
+import productsReducer from './products';
+import cartReducer from './cart';
 
-// Combine all reducers into one
-// Currently, we only have the categories reducer, but we're definitely going to be adding more here later
-let reducers = combineReducers({
+const rootReducer = combineReducers({
   categories: categoriesReducer,
+  products: productsReducer,
+  cart: cartReducer,
 });
 
-// This function creates the redux store
-// The store is created by calling createStore with the combined reducers and the Redux DevTools extension
-const store = () => {
-  return createStore(reducers, composeWithDevTools());
-}
+const store = createStore(rootReducer);
 
-export default store();
+export default store;

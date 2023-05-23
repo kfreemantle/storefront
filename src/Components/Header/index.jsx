@@ -1,13 +1,31 @@
-import { AppBar, Container, Toolbar, Typography } from "@mui/material";
+import React, { useState } from "react";
+import {
+  AppBar,
+  Container,
+  Toolbar,
+  Typography,
+  IconButton,
+  Badge,
+  Menu,
+  MenuItem,
+} from "@mui/material";
+import { useSelector } from "react-redux";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const Header = () => {
+  const { cart } = useSelector((state) => state);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <AppBar
-      position="static"
-      // sx={{
-      //   backgroundColor: "white",
-      // }}
-    >
+    <AppBar position="static">
       <Container>
         <Toolbar disableGutters>
           <Typography
@@ -18,6 +36,24 @@ const Header = () => {
           >
             OUR STORE
           </Typography>
+          <IconButton color="inherit" onClick={handleClick}>
+            <Badge badgeContent={cart.length} color="error">
+              <ShoppingCartIcon />
+            </Badge>
+          </IconButton>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            {cart.map((item, index) => (
+              <MenuItem key={index} onClick={handleClose}>
+                {item.name}
+              </MenuItem>
+            ))}
+          </Menu>
         </Toolbar>
       </Container>
     </AppBar>

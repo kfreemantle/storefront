@@ -1,8 +1,12 @@
-import { Box, Typography } from "@mui/material";
-import { connect } from "react-redux";
+import { Box, Typography, Button } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../../store/cart";
 
-// Define the Products component. The products component receives 'products' as a prop, which is just an array of products.
-const Products = ({ products }) => {
+const Products = () => {
+  // Corrected line here
+  const products = useSelector((state) => state.products);
+  const dispatch = useDispatch();
+
   return (
     <Box
       sx={{
@@ -27,29 +31,48 @@ const Products = ({ products }) => {
       {/* Loop over the products array and display each product */}
       {products.map((product, idx) => {
         return (
-          <Typography
+          <Box
             key={`product-${idx}`}
-            variant="body1"
             sx={{
-              marginBottom: "0.5rem",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              marginBottom: "1rem",
+              border: "1px solid grey",
+              padding: "1rem",
             }}
           >
-            {product.name} - ${product.price} - In-Stock: {product.inStock}
-          </Typography>
+            <Typography
+              variant="h5"
+              align="center"
+              sx={{
+                marginBottom: "0.5rem",
+              }}
+            >
+              {product.name} - ${product.price}
+            </Typography>
+            <Typography
+              variant="body1"
+              align="center"
+              sx={{
+                marginBottom: "0.5rem",
+              }}
+            >
+              In-Stock: {product.inStock}
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={product.inStock === 0}
+              onClick={() => dispatch(addToCart(product))}
+            >
+              Add to Cart
+            </Button>
+          </Box>
         );
       })}
     </Box>
   );
 };
 
-// mapStateToProps is a function that lets you create props that are linked to the Redux store.
-// Here, you're creating one prop - products - and linking it to the relevant data in the Redux store.
-const mapStateToProps = ({ categories }) => {
-  return {
-    products: categories.filteredProducts,
-  };
-};
-
-// The Products component is connected to the Redux store using the 'connect' function from 'react-redux'.
-// mapStateToProps is passed as an argument to 'connect' to create the connected component.
-export default connect(mapStateToProps)(Products);
+export default Products;
