@@ -1,9 +1,13 @@
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Typography, Button, ButtonGroup } from "@mui/material";
-import { setCategory, filterProducts, reset } from "../../store/categories"; // Assume these action creators exist in your store
+import { setCategory, reset } from "../../store/categories";
 
 // Define the Categories component
-const Categories = ({ categories, setCategory, filterProducts, reset }) => {
+const Categories = () => {
+  const categories = useSelector((state) => state.categories.categories); // Get categories from the Redux store
+  const dispatch = useDispatch(); // Hook used to dispatch actions
+
   return (
     <>
       {/* Display a header text for the Categories section */}
@@ -20,8 +24,7 @@ const Categories = ({ categories, setCategory, filterProducts, reset }) => {
               <Button
                 key={`category-${idx}`}
                 onClick={() => {
-                  setCategory(category); // Set active category
-                  filterProducts(); // Filter products based on active category
+                  dispatch(setCategory(category)); // Set active category
                 }}
               >
                 {category.displayName}
@@ -31,24 +34,10 @@ const Categories = ({ categories, setCategory, filterProducts, reset }) => {
         }
 
         {/* Add a RESET button to clear the selected category */}
-        <Button onClick={() => reset()}>RESET</Button>
+        <Button onClick={() => dispatch(reset())}>RESET</Button>
       </ButtonGroup>
     </>
   );
 };
 
-// mapStateToProps is a function that lets you create props that are linked to the Redux store.
-// Here, you're creating one prop - categories - and linking it to the relevant data in the Redux store.
-const mapStateToProps = ({ categories }) => {
-  return {
-    categories: categories.categories,
-  };
-};
-
-// mapDispatchToProps is an object that lets you create props that are linked to Redux action creators.
-// These props are functions that dispatch actions when called.
-// Here, you're creating two props - setCategory and reset - and linking them to the relevant action creators in the Redux store.
-const mapDispatchToProps = { setCategory, filterProducts, reset };
-
-// Connect the Categories component to the Redux store
-export default connect(mapStateToProps, mapDispatchToProps)(Categories);
+export default Categories;

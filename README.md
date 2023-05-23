@@ -1,10 +1,12 @@
-# Lab 36 - Redux Storefront
+# Lab 36, 37 - Redux Storefront
 
 ## Project: Application State with Redux
 
 ### Author: Kyle Freemantle
 
 ### Problem Domain  
+
+This is an application intended to mock a storefront, using Redux and Material UI for functionality/styling.  
 
 ### Links and Resources
 
@@ -33,6 +35,7 @@
 #### Tests
 
 - None for this phase
+
 
 #### UML
 

@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../store/cart";
 
 const Products = () => {
-  const { products } = useSelector((state) => state);
-  // const { activeCategory } = useSelector((state) => state.categories);
+  // Corrected line here
+  const products = useSelector((state) => state.products);
   const dispatch = useDispatch();
 
   return (
