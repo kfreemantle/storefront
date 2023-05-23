@@ -46,7 +46,7 @@ const Products = ({ products }) => {
 // Here, you're creating one prop - products - and linking it to the relevant data in the Redux store.
 const mapStateToProps = ({ categories }) => {
   return {
-    products: categories.products,
+    products: categories.filteredProducts,
   };
 };
 

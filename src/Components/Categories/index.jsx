@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
 import { Typography, Button, ButtonGroup } from "@mui/material";
-import { setCategory, reset } from "../../store/categories"; // Assume these action creators exist in your store
+import { setCategory, filterProducts, reset } from "../../store/categories"; // Assume these action creators exist in your store
 
 // Define the Categories component
-const Categories = ({ categories, setCategory, reset }) => {
+const Categories = ({ categories, setCategory, filterProducts, reset }) => {
   return (
     <>
       {/* Display a header text for the Categories section */}
@@ -19,7 +19,10 @@ const Categories = ({ categories, setCategory, reset }) => {
             return (
               <Button
                 key={`category-${idx}`}
-                onClick={() => setCategory(category)} // On click, set the active category
+                onClick={() => {
+                  setCategory(category); // Set active category
+                  filterProducts(); // Filter products based on active category
+                }}
               >
                 {category.displayName}
               </Button>
@@ -45,7 +48,7 @@ const mapStateToProps = ({ categories }) => {
 // mapDispatchToProps is an object that lets you create props that are linked to Redux action creators.
 // These props are functions that dispatch actions when called.
 // Here, you're creating two props - setCategory and reset - and linking them to the relevant action creators in the Redux store.
-const mapDispatchToProps = { setCategory, reset };
+const mapDispatchToProps = { setCategory, filterProducts, reset };
 
 // Connect the Categories component to the Redux store
 export default connect(mapStateToProps, mapDispatchToProps)(Categories);

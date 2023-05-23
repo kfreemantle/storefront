@@ -7,16 +7,17 @@ export const initialState = {
   products: [
     // A list of products for sale in our store
     // Each product has a name, category, price, and quantity in stock
-    { name: 'Roku', category: 'electronics', price: 199.00, inStock: 5 },
-    { name: 'TV', category: 'electronics', price: 549.00, inStock: 10 },
-    { name: 'Smart Watch', category: 'electronics', price: 299.00, inStock: 15 },
-    { name: 'Coat', category: 'clothing', price: 19.00, inStock: 35 },
-    { name: 'Pants', category: 'clothing', price: 32.00, inStock: 15 },
+    { name: 'Servoskull', category: 'electronics', price: 199.00, inStock: 5 },
+    { name: 'Hololith', category: 'electronics', price: 549.00, inStock: 10 },
+    { name: 'Comm Bead', category: 'electronics', price: 299.00, inStock: 15 },
+    { name: 'Commissar Coat', category: 'clothing', price: 19.00, inStock: 35 },
+    { name: 'Commissar Hat', category: 'clothing', price: 32.00, inStock: 15 },
     { name: 'Soylent Green', category: 'food', price: 1.99, inStock: 750 },
     { name: 'Corpse Starch', category: 'food', price: 2.99, inStock: 135 },
     { name: 'Nutrient Packet', category: 'food', price: 5.99, inStock: 200 }
   ],
-  activeCategory: ''  // Currently active (selected) category
+  activeCategory: null,  // Currently active (selected) category
+  filteredProducts: [], // filtered products based on active category
 };
 
 // The reducer function for our categories
@@ -26,17 +27,13 @@ export const initialState = {
 const categoriesReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SET_CATEGORY':
-      // When we set a category, update the active category and products
+      // When we set a category, update the active category and filter the products
+      const activeCategory = action.payload.name;
+      const filteredProducts = initialState.products.filter((item) => item.category === activeCategory);
       return {
         ...state,
-        activeCategory: action.payload.name,
-        products: initialState.products,
-      };
-    case 'FILTER_PRODUCTS':
-      // When we want to filter products, only keep those in the active category
-      return {
-        ...state,
-        products: state.products.filter((item) => item.category === state.activeCategory),
+        activeCategory,
+        filteredProducts,
       };
     case 'RESET':
       // When we reset, return to the initial state
