@@ -16,7 +16,7 @@ This is an application intended to mock a storefront, using Redux and Material U
 
 ### Acknowledgements
 
-- I referred intermittently to previous projects by Code Fellows student Steven Gant, as well as the Redux documentation and ChatGPT for assistance with syntax.
+- I referred intermittently to previous projects by Code Fellows student Steven Gant, help directly from my classmate Miranda Lu, as well as the Redux documentation and ChatGPT for assistance with syntax.
 
 ### Setup
 
@@ -40,3 +40,6 @@ This is an application intended to mock a storefront, using Redux and Material U
 #### UML
 
 ![UML]('./public/lab36UML.png')
+
+
+

@@ -1,3 +1,6 @@
+import axios from 'axios';
+import { decrementStock } from '../products';  // import the decrementStock action creator
+
 // cart's initial state
 export const initialState = [];
 
@@ -18,5 +21,22 @@ export const addToCart = (product) => {
     payload: product,
   };
 };
+
+export const addToCartInServer = (product) => async (dispatch, getState) => {
+  try {
+    const response = await axios.post(`https://api-js401.herokuapp.com/api/v1/cart`, {
+      // data structure depends on your API
+      productId: product._id,
+      quantity: 1,
+    });
+
+    if (response.status === 201) {
+      dispatch(addToCart(product));
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 
 export default cartReducer;

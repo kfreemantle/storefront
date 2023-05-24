@@ -1,3 +1,6 @@
+// need axios for making GET requests to the API
+import axios from 'axios';
+
 // products' initial state
 export const initialState = [
   { name: 'Servoskull', category: 'electronics', price: 199.00, inStock: 5 },
@@ -10,9 +13,19 @@ export const initialState = [
   { name: 'Nutrient Packet', category: 'food', price: 5.99, inStock: 200 }
 ];
 
+// products' action creator
+export const setProducts = (products) => {
+  return {
+    type: 'SET_PRODUCTS',
+    payload: products,
+  };
+};
+
 // products' reducer
 const productsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'SET_PRODUCTS':
+      return action.payload;
     case 'DECREMENT_STOCK':
       return state.map(product =>
         product.name === action.payload.name
@@ -31,5 +44,51 @@ export const decrementStock = (product) => {
     payload: product,
   };
 };
+
+export const fetchProducts = () => async (dispatch) => {
+  const response = await axios.get('https://api-js401.herokuapp.com/api/v1/products');
+  dispatch(setProducts(response.data));
+  console.log(fetchProducts)
+}
+
+export const createProduct = (product) => async (dispatch) => {
+  try {
+    const response = await axios.post(`https://api-js401.herokuapp.com/api/v1/products`, product);
+
+    if (response.status === 201) {
+      // After the server responds successfully, re-fetch the list of products
+      dispatch(fetchProducts());
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateProduct = (product) => async (dispatch) => {
+  try {
+    const response = await axios.put(`https://api-js401.herokuapp.com/api/v1/products/${product._id}`, product);
+
+    if (response.status === 200) {
+      // After the server responds successfully, re-fetch the list of products
+      dispatch(fetchProducts());
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteProduct = (product) => async (dispatch) => {
+  try {
+    const response = await axios.delete(`https://api-js401.herokuapp.com/api/v1/products/${product._id}`);
+
+    if (response.status === 200) {
+      // After the server responds successfully, re-fetch the list of products
+      dispatch(fetchProducts());
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 
 export default productsReducer;
