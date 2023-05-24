@@ -40,3 +40,6 @@ This is an application intended to mock a storefront, using Redux and Material U
 #### UML
 
 ![UML]('./public/lab36UML.png')
+
+
+

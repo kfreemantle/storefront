@@ -51,7 +51,44 @@ export const fetchProducts = () => async (dispatch) => {
   console.log(fetchProducts)
 }
 
+export const createProduct = (product) => async (dispatch) => {
+  try {
+    const response = await axios.post(`https://api-js401.herokuapp.com/api/v1/products`, product);
 
+    if (response.status === 201) {
+      // After the server responds successfully, re-fetch the list of products
+      dispatch(fetchProducts());
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateProduct = (product) => async (dispatch) => {
+  try {
+    const response = await axios.put(`https://api-js401.herokuapp.com/api/v1/products/${product._id}`, product);
+
+    if (response.status === 200) {
+      // After the server responds successfully, re-fetch the list of products
+      dispatch(fetchProducts());
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteProduct = (product) => async (dispatch) => {
+  try {
+    const response = await axios.delete(`https://api-js401.herokuapp.com/api/v1/products/${product._id}`);
+
+    if (response.status === 200) {
+      // After the server responds successfully, re-fetch the list of products
+      dispatch(fetchProducts());
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 
 export default productsReducer;
