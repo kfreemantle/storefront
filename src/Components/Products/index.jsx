@@ -1,11 +1,16 @@
 import { Box, Typography, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../store/cart";
+import { fetchProducts } from "../../store/products";
+import { useEffect } from "react";
 
 const Products = () => {
-  // Corrected line here
   const products = useSelector((state) => state.products);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   return (
     <Box
@@ -64,7 +69,7 @@ const Products = () => {
               variant="contained"
               color="primary"
               disabled={product.inStock === 0}
-              onClick={() => dispatch(addToCart(product))}
+              onClick={() => dispatch(addToCartInServer(product))}
             >
               Add to Cart
             </Button>
