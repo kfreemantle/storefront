@@ -1,5 +1,6 @@
 // need axios for making GET requests to the API
 import axios from 'axios';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 // products' initial state
 export const initialState = [
@@ -37,6 +38,27 @@ const productsReducer = (state = initialState, action) => {
   }
 };
 
+const productsSlice = createSlice({
+  name: 'products',
+  initialState,
+  reducers: {
+    setProducts: (state, action) => {
+      state = action.payload;
+    },
+    decrementStock: (state, action) => {
+      const product = state.find(product => product.name === action.payload.name);
+      if (product) {
+        product.inStock -= 1;
+      }
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchProducts.fulfilled, (state, action) => {
+      return action.payload;
+    });
+  }
+});
+
 // products' action creators
 export const decrementStock = (product) => {
   return {
@@ -45,11 +67,13 @@ export const decrementStock = (product) => {
   };
 };
 
-export const fetchProducts = () => async (dispatch) => {
-  const response = await axios.get('https://api-js401.herokuapp.com/api/v1/products');
-  dispatch(setProducts(response.data));
-  console.log(fetchProducts)
-}
+export const fetchProducts = createAsyncThunk(
+  'products/fetchProducts',
+  async (_, { dispatch }) => {
+    const response = await axios.get('https://api-js401.herokuapp.com/api/v1/products');
+    return response.data;
+  }
+);
 
 export const createProduct = (product) => async (dispatch) => {
   try {
@@ -90,5 +114,6 @@ export const deleteProduct = (product) => async (dispatch) => {
   }
 };
 
+export const { setProducts, decrementStock } = productsSlice.actions;
 
-export default productsReducer;
+export default productsSlice.reducer;
