@@ -23,19 +23,18 @@ const categoriesReducer = (state = initialState, action) => {
   }
 };
 
+const categoriesSlice = createSlice({
+  name: 'categories',
+  initialState,
+  reducers: {
+    setCategory: (state, action) => {
+      state.activeCategory = action.payload.name;
+    },
+    reset: () => initialState,
+  },
+});
+
 // categories' action creators
-export const setCategory = (category) => {
-  return {
-    type: 'SET_CATEGORY',
-    payload: category,
-  };
-};
+export const { setCategory, reset } = categoriesSlice.actions;
 
-export const reset = () => {
-  return {
-    type: 'RESET',
-    payload: {},
-  };
-};
-
-export default categoriesReducer;
+export default categoriesSlice.reducer;
